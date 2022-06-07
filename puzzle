@@ -1,0 +1,117 @@
+import random
+
+class PuzzleGame:
+
+    def __init__(self):
+        self.buttonList = []
+        self.buttonList.append(Button(1, (2, 4), [5]))
+        self.buttonList.append(Button(2, (1, 5, 3), (4, 6)))
+        self.buttonList.append(Button(3, (2, 6), [5]))
+        self.buttonList.append(Button(4, (1, 5, 7), (2, 8)))
+        self.buttonList.append(Button(5, (2, 4, 6, 8), (1, 3, 7, 9)))
+        self.buttonList.append(Button(6, (3, 5, 9), (2, 8)))
+        self.buttonList.append(Button(7, (4, 8), [5]))
+        self.buttonList.append(Button(8, (7, 5, 9), (4, 6)))
+        self.buttonList.append(Button(9, (6, 8), [5]))
+
+    def displayPuzzle(self):
+        currentColumn = 0
+        for eachButton in self.buttonList:
+            print(eachButton.buttonState, end = "\t")
+            currentColumn += 1
+            if currentColumn == 3:
+                print("")
+                currentColumn = 0
+
+    def checkPuzzleComplete(self):
+        for eachButton in self.buttonList:
+            if eachButton.buttonState == False:
+                return True
+        return False
+
+    def puzzleGameplay(self):
+        while(self.checkPuzzleComplete()):
+            self.displayPuzzle()
+            inputButton = int(input("Enter button number: "))
+            for eachButton in self.buttonList:
+                if inputButton == eachButton.buttonNumber:
+                    eachButton.changeStatus()
+                    inputButtonNeighbor = eachButton.buttonNeighbor
+                    break
+            print(inputButtonNeighbor)
+            for eachButton in self.buttonList:
+                if eachButton.buttonNumber in inputButtonNeighbor:
+                    eachButton.changeStatus()
+
+        ##################
+        self.displayPuzzle()
+        print("Puzzle Complete")
+
+    def normalGameplay(self):
+        while (self.checkPuzzleComplete()):
+            self.displayPuzzle()
+            inputButton = int(input("Enter button number: "))
+            for eachButton in self.buttonList:
+                if inputButton == eachButton.buttonNumber:
+                    eachButton.changeStatus()
+                    diagonalNeighbor = eachButton.buttonDiagonalNeighbor
+                    break
+            print(diagonalNeighbor)
+            for eachButton in self.buttonList:
+                if eachButton.buttonNumber in diagonalNeighbor:
+                    eachButton.changeStatus()
+
+
+
+class Button:
+
+    def __init__(self, number, neighbor, diagonal):
+        self.buttonNumber = number
+        self.buttonNeighbor = neighbor
+        self.buttonDiagonalNeighbor = diagonal
+        if random.randint(0, 1) == 0:
+            self.buttonState = False
+        else:
+            self.buttonState = True
+
+    def changeStatus(self):
+        self.buttonState = not(self.buttonState)
+
+
+
+def option():
+    print('DDO Vale Puzzle Solver')
+    print('')
+    print("[0]", "Exit the Program")
+    print("[1]", 'Easy')
+    print("[2]", 'Normal')
+    print("[3]", 'Hard')
+    print("[4]", 'Master')
+
+option()
+inputOption = int(input('Enter Option: '))
+
+while True:
+    if inputOption == 1:
+        newGame = PuzzleGame()
+        newGame.puzzleGameplay()
+        option()
+
+    elif inputOption == 2:
+        newGameTwo = PuzzleGame()
+        newGameTwo.normalGameplay()
+        option()
+
+    elif inputOption == 3:
+        newGame = PuzzleGame()
+        newGame.
+
+    elif inputOption == 4:
+        newGame = PuzzleGame()
+        newGame.
+    elif inputOption == 0:
+        print('Thank You!')
+        break
+    else:
+        print("Invalid Input")
+        break
